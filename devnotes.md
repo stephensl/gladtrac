@@ -121,3 +121,56 @@ end
   - :binary
   - :boolean
 
+
+##### Routes added via `devise`
+
+| Prefix                        | Verb   | URI Pattern                 | Controller#Action               |
+|-------------------------------|--------|-----------------------------|---------------------------------|
+| new_user_session              | GET    | /users/sign_in(.:format)    | devise/sessions#new             |
+| user_session                  | POST   | /users/sign_in(.:format)    | devise/sessions#create          |
+| destroy_user_session          | DELETE | /users/sign_out(.:format)   | devise/sessions#destroy         |
+| new_user_password             | GET    | /users/password/new(.:format) | devise/passwords#new          |
+| edit_user_password            | GET    | /users/password/edit(.:format)| devise/passwords#edit         |
+| user_password                 | PATCH  | /users/password(.:format)   | devise/passwords#update         |
+|                               | PUT    | /users/password(.:format)   | devise/passwords#update         |
+|                               | POST   | /users/password(.:format)   | devise/passwords#create         |
+| cancel_user_registration      | GET    | /users/cancel(.:format)     | devise/registrations#cancel     |
+| new_user_registration         | GET    | /users/sign_up(.:format)    | devise/registrations#new        |
+| edit_user_registration        | GET    | /users/edit(.:format)       | devise/registrations#edit       |
+| user_registration             | PATCH  | /users(.:format)            | devise/registrations#update     |
+|                               | PUT    | /users(.:format)            | devise/registrations#update     |
+|                               | DELETE | /users(.:format)            | devise/registrations#destroy    |
+|                               | POST   | /users(.:format)            | devise/registrations#create     |
+
+
+# Views added via `devise`
+
+# Devise Views and Corresponding Routes
+
+| Devise Module      | View File                                           | Route                               |
+|--------------------|-----------------------------------------------------|-------------------------------------|
+| `confirmations`    | [new.html.erb](./devise/confirmations/new.html.erb) | `new_user_confirmation GET`         |
+| `mailer`           | [confirmation_instructions.html.erb](./devise/mailer/confirmation_instructions.html.erb) | *Email template, no direct route* |
+|                    | [email_changed.html.erb](./devise/mailer/email_changed.html.erb) | *Email template, no direct route* |
+|                    | [password_change.html.erb](./devise/mailer/password_change.html.erb) | *Email template, no direct route* |
+|                    | [reset_password_instructions.html.erb](./devise/mailer/reset_password_instructions.html.erb) | *Email template, no direct route* |
+|                    | [unlock_instructions.html.erb](./devise/mailer/unlock_instructions.html.erb) | *Email template, no direct route* |
+| `passwords`        | [edit.html.erb](./devise/passwords/edit.html.erb)   | `edit_user_password GET`            |
+|                    | [new.html.erb](./devise/passwords/new.html.erb)     | `new_user_password GET`             |
+| `registrations`    | [edit.html.erb](./devise/registrations/edit.html.erb) | `edit_user_registration GET`      |
+|                    | [new.html.erb](./devise/registrations/new.html.erb) | `new_user_registration GET`         |
+| `sessions`         | [new.html.erb](./devise/sessions/new.html.erb)      | `new_user_session GET`              |
+| `shared`           | [_error_messages.html.erb](./devise/shared/_error_messages.html.erb) | *Partial, used in other views*   |
+|                    | [_links.html.erb](./devise/shared/_links.html.erb)  | *Partial, used in other views*     |
+| `unlocks`          | [new.html.erb](./devise/unlocks/new.html.erb)       | `new_user_unlock GET`               |
+
+Model: 
+
+```ruby 
+class User < ApplicationRecord
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
+end
+```
