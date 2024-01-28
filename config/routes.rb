@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  devise_for :users
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  get "up" => "rails/health#show", as: :rails_health_check
+  get 'dashboard/index'
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
-  root "home#index"
+  root 'dashboard#index'
 end
+

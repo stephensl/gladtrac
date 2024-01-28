@@ -174,3 +174,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 end
 ```
+
+
+![omniAuth diagram](https://developer.okta.com/assets-jekyll/blog/omniauth/omniauth-diagram-e360792c4909a94825a92c7d02614e5c7c283a62465a8dc3c17cbb907969bdb3.png)
