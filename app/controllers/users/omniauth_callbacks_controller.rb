@@ -1,5 +1,10 @@
 class Users::OmniauthCallbacksController < ApplicationController
   def google_oauth2
+    Rails.logger.info "Scopes: #{request.env['omniauth.auth']['info']['scopes']}"
+    
+    Rails.logger.info "Access Type: #{request.env['omniauth.auth']['info']['access_type']}"
+    
+    Rails.logger.info "Redirect URI: #{request.env['omniauth.auth']['redirect_uri']}"
     user = User.from_google(auth)
 
     if user.persisted?

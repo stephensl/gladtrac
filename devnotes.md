@@ -177,3 +177,115 @@ end
 
 
 ![omniAuth diagram](https://developer.okta.com/assets-jekyll/blog/omniauth/omniauth-diagram-e360792c4909a94825a92c7d02614e5c7c283a62465a8dc3c17cbb907969bdb3.png)
+
+
+```html.erb
+<%- if devise_mapping.omniauthable? %>
+  <%- resource_class.omniauth_providers.each do |provider| %>
+    <%= button_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), data: { turbo: false } %><br />
+  <% end %>
+<% end %>
+```
+
+# Structure of `auth` hash recieved from google.
+
+```ruby {
+  provider: 'google_oauth2',
+  uid: '123456789',
+  info: {
+    name: 'John Doe',
+    email: 'johndoe@example.com',
+    first_name: 'John',
+    last_name: 'Doe',
+    image: 'https://example.com/image.jpg',
+    urls: { google: 'https://plus.google.com/123456789' }
+  },
+  credentials: {
+    token: 'TOKEN',
+    refresh_token: 'REFRESH_TOKEN',
+    expires_at: 1496120719,
+    expires: true
+  },
+  extra: {
+    raw_info: {
+      id: '123456789',
+      email: 'johndoe@example.com',
+      verified_email: true,
+      name: 'John Doe',
+      given_name: 'John',
+      family_name: 'Doe',
+      link: 'https://plus.google.com/123456789',
+      picture: 'https://example.com/image.jpg',
+      gender: 'male',
+      locale: 'en'
+    },
+    id_info: {
+      iss: 'accounts.google.com',
+      at_hash: 'HK6E_P6Dh...kYnUnQ',
+      email_verified: 'true',
+      sub: '10769150350006150715113082367',
+      azp: 'APP_ID',
+      email: 'johndoe@example.com',
+      aud: 'APP_ID',
+      iat: 1496117119,
+      exp: 1496120719,
+      jti: 'abc1234567890123456789'
+    }
+  }
+}
+
+
+def first_or_initialize(attributes = nil, options = {}, &block)
+  first || new(attributes, options, &block)
+end 
+```
+#
+##  
+###
+####
+##### Quick code break (QCB)
+####
+###
+##
+#
+
+
+
+
+
+## Challenge: 'camelSnake_Pascal-kebab' 
+Choose Level: 
+  -- Easy:  a language you know well.
+  -- Medium: a language you are getting to know. 
+  -- Hard: a language you'd like to get to know.
+
+  Plug in your word:
+  input
+
+  Convert to <camel, snake, Pascal, kebab>
+
+  Output 
+
+#### Input: string in either snake_case, PacscalCase, or kebab-case. 
+    
+  `exampleString`
+  
+  ###### Reference 
+  
+  ### camelCase: 
+    The first letter of the first word is lowercase, and the first letter of each subsequent word is capitalized. For example, userName, shoppingCart, speedOfLight.
+
+ ### snake_case: 
+    All letters are lowercase, and words are separated by underscores. This style is less common in JavaScript and is more prevalent in languages like Python and Ruby. For example, user_name, shopping_cart.
+
+  ### PascalCase (or UpperCamelCase): 
+    Similar to camelCase, but the first letter of the first word is also capitalized. This is typically used for classes, constructors, and sometimes for namespaces. For example, DateFormatter, UserAccount.
+
+  ### kebab-case: 
+    Words are in lowercase and separated by hyphens. This is not used for variables or function names in JavaScript, as hyphens are interpreted as minus signs in expressions, but it's common in CSS and URLs.
+
+#
+#
+
+
+Task: transform string from cameCase to Pas
