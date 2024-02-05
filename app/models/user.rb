@@ -5,26 +5,38 @@ class User < ApplicationRecord
          :rememberable, 
          :validatable, 
          :omniauthable, omniauth_providers: [:google_oauth2]
-
-# Handles oauth response from provider and sets user attributes. 
-  def self.from_google(auth)
-    where(provider: auth.provider, uid: auth.uid).first_or_initialize do |user|
-      user.email = auth.info.email
-      user.password = Devise.friendly_token[0, 20]
-      user.fullname = auth.info.name 
-      user.avatar_url = auth.info.image
-      user.save!
-    end
-  end
   
+  has_one :school_credential
+
   # Define roles 
-  enum role: [:student, :teacher, :counselor, :admin, :staff]
+  enum role: [:student, :admin]
+  
+  after_create :assign_role_from_school_credential
 
-  # Callback to set default role
-  after_initialize :set_default_role, if: :new_record?
-
-  def set_default_role
-    self.role ||= :student
+def self.from_google(auth)
+  where(provider: auth.provider, uid: auth.uid).first_or_initialize do |user|
+    user.email = auth.info.email
+    user.password = Devise.friendly_token[0, 20]
+    user.fullname = auth.info.name 
+    user.avatar_url = auth.info.image
+    # Move the role assignment logic here from after_create
+    user.assign_role_from_school_credential
+    user.save!
   end
+end
+
+  
+
+
+
+def assign_role_from_school_credential(school_id)
+  credential = SchoolCredential.find_by_school_id_and_email(school_id, self.email)
+  if credential
+    self.update(role: credential.role)
+  else
+    self.update(role: :student)
+  end
+end
+
 end
 
