@@ -16,6 +16,15 @@ class User < ApplicationRecord
       user.save!
     end
   end
-end
+  
+  # Define roles 
+  enum role: [:student, :teacher, :counselor, :admin, :staff]
 
+  # Callback to set default role
+  after_initialize :set_default_role, if: :new_record?
+
+  def set_default_role
+    self.role ||= :student
+  end
+end
 
