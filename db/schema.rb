@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_05_185110) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_06_030712) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -23,7 +23,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_05_185110) do
   end
 
   create_table "courses", force: :cascade do |t|
-    t.bigint "student_id", null: false
     t.string "name"
     t.string "subject"
     t.text "state_code"
@@ -31,7 +30,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_05_185110) do
     t.text "credit_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["student_id"], name: "index_courses_on_student_id"
   end
 
   create_table "enrollments", force: :cascade do |t|
@@ -85,7 +83,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_05_185110) do
   end
 
   add_foreign_key "admins", "users"
-  add_foreign_key "courses", "students"
   add_foreign_key "enrollments", "courses"
   add_foreign_key "enrollments", "students"
   add_foreign_key "school_credentials", "users"

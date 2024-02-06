@@ -25,16 +25,12 @@ def self.from_google(auth)
   end
 end
 
-  
-
-
-
-def assign_role_from_school_credential(school_id)
-  credential = SchoolCredential.find_by_school_id_and_email(school_id, self.email)
+def assign_role_from_school_credential(school_id, email)
+  credential = SchoolCredential.find_by(school_id: school_id, email: email)
   if credential
     self.update(role: credential.role)
   else
-    self.update(role: :student)
+    errors.add(:base, "We were not able to find you in our database. Review input and try again. If error persists, confirm that you are in school database by submitting a ticket at '/help'")
   end
 end
 

@@ -4,10 +4,10 @@ class ApplicationController < ActionController::Base
     # Check if the resource (user) has a specific role
     if resource.admin?
       # Redirect admin users to the admin dashboard
-      admin_root_path
+      admin_dashboard_path
     elsif resource.student?
       # Redirect student users to the student dashboard
-      students_path
+      students_dashboard_path
     else
       # Redirect to a default path if neither
       root_path

@@ -1,31 +1,32 @@
 Rails.application.routes.draw do
+  # Devise setup for user authentication
   devise_for :users, controllers: {
     registrations: 'users/registrations',
     omniauth_callbacks: 'users/omniauth_callbacks'
   }
 
-  # Check if the user is signed in and has the role of student or admin
-  authenticated :user, ->(user) { user.student? || user.admin? } do
-    root 'users#show', as: :authenticated_root
-  end
+  # Unauthenticated root - Directs unauthenticated users to the login page
+  root to: 'devise/sessions#new'
 
-  # If the user is not signed in or doesn't have the required roles, root to the login page
-  unauthenticated do
-    root to: 'devise/sessions#new'
-  end
-
+  # Admin namespace
   namespace :admin do
-    root 'dashboard#show'
+    # Admin dashboard - Both a specific route and the root of the admin namespace
+    get 'dashboard', to: 'dashboards#show'
+    root to: 'dashboards#show'
+
+    # RESTful resources within the admin namespace
     resources :users
     resources :students
     resources :courses
     resources :enrollments
   end
 
+  # Students namespace
   namespace :students do
-    root 'users/students#show'
-    resources :courses, only: [:index, :show] do
-      resources :enrollments, only: [:index, :show]
-    end
+    # Student dashboard - Accessible to students
+    get 'dashboard', to: 'dashboards#show'
   end
+
+  resources :courses
+  resources :enrollments
 end
