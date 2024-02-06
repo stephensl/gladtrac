@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   }
 
   # Unauthenticated root - Directs unauthenticated users to the login page
-  root to: 'devise/sessions#new'
+  root to: 'home#index'
 
   # Admin namespace
   namespace :admin do
