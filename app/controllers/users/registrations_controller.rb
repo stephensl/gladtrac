@@ -1,11 +1,9 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_permitted_parameters, if: :devise_controller?
 
- 
-
   def check_school_credential
     # Attempt to find a matching SchoolCredential
-    credential = SchoolCredential.find_by_school_id_and_email(params[:user][:school_id], params[:user][:email])
+    credential = SchoolCredential.find_by_school_id_and_email(params[:user][:school_id])
     unless credential
       # If no credential is found, do not proceed with account creation
       build_resource(sign_up_params)
@@ -14,7 +12,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  def sign_up_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :school_id)
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:school_id, :email, :password, :password_confirmation])
   end
-end
+end 

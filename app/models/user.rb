@@ -9,30 +9,24 @@ class User < ApplicationRecord
   has_one :school_credential
 
   # Define roles 
-  enum role: [:student, :admin]
-  
-  after_create :assign_role_from_school_credential
+  enum role: [ unassigned: 0, student: 1, admin: 2]
 
-def self.from_google(auth)
-  where(provider: auth.provider, uid: auth.uid).first_or_initialize do |user|
-    user.email = auth.info.email
-    user.password = Devise.friendly_token[0, 20]
-    user.fullname = auth.info.name 
-    user.avatar_url = auth.info.image
-    # Move the role assignment logic here from after_create
-    user.assign_role_from_school_credential
-    user.save!
+  def self.from_google(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_initialize do |user|
+      user.email = auth.info.email
+      user.password = Devise.friendly_token[0, 20]
+      user.fullname = auth.info.name 
+      user.avatar_url = auth.info.image
+      user.save!
+    end
   end
-end
 
-def assign_role_from_school_credential(school_id, email)
-  credential = SchoolCredential.find_by(school_id: school_id, email: email)
-  if credential
-    self.update(role: credential.role)
-  else
-    errors.add(:base, "We were not able to find you in our database. Review input and try again. If error persists, confirm that you are in school database by submitting a ticket at '/help'")
+  def assign_role_from_school_credential
+    credential = SchoolCredential.find_by(school_id: self.school_id)
+    if credential
+      self.update(role: credential.role)
+    else
+      errors.add(:base, "We were not able to find you in our database. Review input and try again.")
+    end
   end
-end
-
-end
-
+end 

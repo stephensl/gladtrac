@@ -6,7 +6,7 @@ class SchoolCredential < ApplicationRecord
   validates :role, inclusion: { in: %w[student admin], message: "Role must be 'student' or 'admin'" }
   
   # Find a credential by school_id and verify the email
-  def self.find_by_school_id_and_email(school_id, email)
-    find_by(school_id: school_id, school_email: email)
+  def self.find_by_school_id(school_id)
+    find_by(school_id: school_id)
   end
 end
