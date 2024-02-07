@@ -1,0 +1,36 @@
+<p style="color: green"><%= notice %></p>
+<%= link_to "Log Out", destroy_user_session_path, method: :delete %>
+
+<h1>Welcome to the Student Academic Dashboard</h1>
+<%= render @student %>
+
+<div class="container">
+  <section class="graduation-tracker">
+    <h2>Graduation Tracker</h2>
+    <p>Completed Credits: 3</p>
+    <p>Remaining Credits: 21</p>
+  </section>
+
+  <section class="active-courses">
+    <h2>Active Courses</h2>
+    <ul>
+      <li>Course 1: Biology adv</li>
+      <li>Course 2: Algebra honors</li>
+      <li>Course 3: Health and Personal Fitness</li>
+      <li>Course 4: Intro to Software</li>
+    </ul>
+  </section>
+
+  <section class="calendar">
+    <h2>Calendar</h2>
+    <p>Upcoming Exam: Biology - February 28, 2024</p>
+    <p>Submission Deadline: Software project - February 20, 2024</p>
+  </section>
+
+  <section class="planner">
+    <h2>Planner</h2>
+      <p>Widget or drag drop course sequence planner will go here"</p>
+  </section>
+</div>
+
+
